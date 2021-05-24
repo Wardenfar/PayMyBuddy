@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/anonyme_base.html}">
+<head>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    <form action="/security/login_check" method='POST'>
+        <div class="card m-4 p-4">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-success">Pay My Buddy</button>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" name="j_username" class="form-control" id="email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="j_password" class="form-control" id="password">
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="remember-me">
+                <label class="form-check-label" for="remember-me">
+                    Remember Me
+                </label>
+            </div>
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
