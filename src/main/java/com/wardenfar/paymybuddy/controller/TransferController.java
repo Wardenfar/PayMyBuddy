@@ -36,19 +36,19 @@ public class TransferController {
         System.out.println(bindingResult.getAllErrors());
         User current = userService.getCurrentUser();
 
-        Optional<User> contactOpt = userRepository.findById(form.getContactId());
+        Optional<User> connectionOpt = userRepository.findById(form.getConnectionId());
 
         String msg = null;
         String error = null;
 
-        if (contactOpt.isEmpty()) {
-            error = "Error contact not found";
+        if (connectionOpt.isEmpty()) {
+            error = "Error connection not found";
         } else {
 
-            User contact = contactOpt.get();
+            User connection = connectionOpt.get();
 
             try {
-                transferService.transfer(current, contact, form.getAmount());
+                transferService.transfer(current, connection, form.getAmount());
                 msg = "Success";
             } catch (Exception e) {
                 error = e.getMessage();

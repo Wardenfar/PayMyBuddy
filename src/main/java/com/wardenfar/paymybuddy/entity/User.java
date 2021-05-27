@@ -37,7 +37,7 @@ public class User {
     private float money = 0.0f;
 
     @ManyToMany(targetEntity = User.class)
-    private Set<User> contacts;
+    private Set<User> connections;
 
     @Override
     public boolean equals(Object o) {

@@ -26,16 +26,16 @@
         <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: flex-end;">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                    <a th:attr="class=${page == 'home' ? 'nav-link active' : 'nav-link'}" th:href="@{/home}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/transfer">Transfer</a>
+                    <a th:attr="class=${page == 'transfer' ? 'nav-link active' : 'nav-link'}" th:href="@{/transfer}">Transfer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a th:attr="class=${page == 'profile' ? 'nav-link active' : 'nav-link'}" th:href="@{/profile}">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a th:attr="class=${page == 'connections' ? 'nav-link active' : 'nav-link'}" th:href="@{/connections}">Connections</a>
                 </li>
                 <li class="nav-item">
                     <form action="/security/logout" method='POST'>

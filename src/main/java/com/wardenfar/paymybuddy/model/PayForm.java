@@ -8,7 +8,7 @@ import javax.validation.constraints.Positive;
 public class PayForm {
 
     @Positive
-    long contactId;
+    long connectionId;
 
     @Positive
     double amount;

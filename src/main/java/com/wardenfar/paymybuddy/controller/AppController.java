@@ -1,7 +1,7 @@
 package com.wardenfar.paymybuddy.controller;
 
-import com.wardenfar.paymybuddy.config.Constants;
 import com.wardenfar.paymybuddy.entity.User;
+import com.wardenfar.paymybuddy.model.AddConnectionForm;
 import com.wardenfar.paymybuddy.model.PayForm;
 import com.wardenfar.paymybuddy.repository.TransactionRepository;
 import com.wardenfar.paymybuddy.service.UserService;
@@ -26,6 +26,7 @@ public class AppController {
     public String home(Model model) {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
+        model.addAttribute("page", "home");
         return "home";
     }
 
@@ -33,10 +34,22 @@ public class AppController {
     public String transfer(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
+        model.addAttribute("page", "transfer");
         model.addAttribute("msg", msg.orElse(null));
         model.addAttribute("error", error.orElse(null));
         model.addAttribute("payForm", new PayForm());
         model.addAttribute("transactions", transactionRepository.findByUserAny(user));
         return "transfer";
+    }
+
+    @GetMapping("/connections")
+    public String connections(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
+        User user = userService.getCurrentUser();
+        model.addAttribute("user", user);
+        model.addAttribute("page", "connections");
+        model.addAttribute("msg", msg.orElse(null));
+        model.addAttribute("error", error.orElse(null));
+        model.addAttribute("addConnectionForm", new AddConnectionForm());
+        return "connections";
     }
 }
