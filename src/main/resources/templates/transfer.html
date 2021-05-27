@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base.html}">
+<head>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="alert alert-danger" role="alert"
+         th:if="${error}" th:text="${error}">
+    </div>
+
+    <form action="#" th:action="@{/pay}" th:object="${payForm}" method="POST">
+        <div class="card my-4">
+            <div class="card-header d-flex justify-content-between align-content-center">
+                <h3>Send Money</h3>
+                <a href="#" class="btn btn-primary">
+                    Add Connection
+                </a>
+            </div>
+            <div class="card-body d-flex">
+                <div class="input-group mx-2">
+                    <select class="form-select" id="connectionList"
+                            th:field="*{contactId}">
+                        <option value="-1">Select a Connection</option>
+                        <option th:each="contact: ${user.contacts}"
+                                th:value="${contact.id}"
+                                th:text="${contact.fullname()}">
+                    </select>
+                </div>
+                <input class="form-control mx-2" type="number" id="amount"
+                       step="0.01"
+                       placeholder="Select an Amount"
+                       th:field="*{amount}"
+                       min="0" th:max="${user.getMoney()}">
+                <button class="btn btn-success mx-2" type="submit"
+                        style="min-width: 100px">
+                    Pay
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

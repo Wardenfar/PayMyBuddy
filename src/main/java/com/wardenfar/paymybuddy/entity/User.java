@@ -27,9 +27,24 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @Column(columnDefinition = "Decimal(100,2) default 0.0")
+    @Version
+    private long version;
+
+    @Column(columnDefinition = "Decimal(10,2) default 0.0")
     private float money = 0.0f;
 
     @ManyToMany(targetEntity = User.class)
     private Set<User> contacts;
+
+    public String fullname(){
+        return firstName + " " + lastName;
+    }
+
+    public void addMoney(double amount) {
+        this.money += amount;
+    }
+
+    public void subMoney(double amount) {
+        this.money -= amount;
+    }
 }
