@@ -5,6 +5,7 @@ import com.wardenfar.paymybuddy.model.PayForm;
 import com.wardenfar.paymybuddy.repository.UserRepository;
 import com.wardenfar.paymybuddy.service.TransferService;
 import com.wardenfar.paymybuddy.service.UserService;
+import com.wardenfar.paymybuddy.util.RedirectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -31,7 +33,7 @@ public class TransferController {
     }
 
     @PostMapping("/pay")
-    public RedirectView pay(@ModelAttribute("payForm") PayForm form, BindingResult bindingResult) {
+    public RedirectView pay(@ModelAttribute("payForm") @Valid PayForm form, BindingResult bindingResult) {
         System.out.println(form.toString());
         System.out.println(bindingResult.getAllErrors());
         User current = userService.getCurrentUser();
@@ -55,17 +57,6 @@ public class TransferController {
             }
         }
 
-        UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest()
-                .replacePath("/transfer");
-
-        if(error != null){
-            builder.queryParam("error", error);
-        }
-        if(msg != null){
-            builder.queryParam("msg", msg);
-        }
-
-        String redirectUri = builder.toUriString();
-        return new RedirectView(redirectUri);
+        return RedirectUtil.redirectTo("/transfer", msg, error);
     }
 }

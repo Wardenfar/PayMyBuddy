@@ -22,6 +22,10 @@ public class TransferService {
 
     @Transactional(rollbackOn = Exception.class)
     public void transfer(User from, User to, double amount) throws Exception {
+        if (amount <= 0) {
+            throw new Exception("The amount must be positive and non zero");
+        }
+
         if (amount > from.getMoney()) {
             throw new Exception("You don't have enough money");
         }
