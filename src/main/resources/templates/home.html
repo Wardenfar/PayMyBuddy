@@ -7,9 +7,7 @@
 <body>
 
 <div layout:fragment="content">
-    <span style="font-size: 75px">
-        <span th:text="${user.getMoney()}"></span>
-        <span> €</span>
+    <span style="font-size: 75px" th:text="${user.formatMoney()}">
     </span>
 </div>
 </body>

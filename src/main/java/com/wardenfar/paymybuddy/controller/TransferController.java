@@ -7,51 +7,65 @@ import com.wardenfar.paymybuddy.service.TransferService;
 import com.wardenfar.paymybuddy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
 public class TransferController {
 
-    @Autowired
-    UserService userService;
+    final UserService userService;
+    final TransferService transferService;
+    final UserRepository userRepository;
 
     @Autowired
-    TransferService transferService;
-
-    @Autowired
-    UserRepository userRepository;
+    public TransferController(UserService userService, TransferService transferService, UserRepository userRepository) {
+        this.userService = userService;
+        this.transferService = transferService;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping("/pay")
-    public String pay(Model model, @ModelAttribute("payForm") PayForm form, BindingResult bindingResult) {
+    public RedirectView pay(@ModelAttribute("payForm") PayForm form, BindingResult bindingResult) {
         System.out.println(form.toString());
         System.out.println(bindingResult.getAllErrors());
         User current = userService.getCurrentUser();
 
-        model.addAttribute("user", current);
-
         Optional<User> contactOpt = userRepository.findById(form.getContactId());
 
+        String msg = null;
+        String error = null;
+
         if (contactOpt.isEmpty()) {
-            model.addAttribute("error", "Error contact not found");
-            return "transfer";
+            error = "Error contact not found";
+        } else {
+
+            User contact = contactOpt.get();
+
+            try {
+                transferService.transfer(current, contact, form.getAmount());
+                msg = "Success";
+            } catch (Exception e) {
+                error = e.getMessage();
+            }
         }
 
-        User contact = contactOpt.get();
+        UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest()
+                .replacePath("/transfer");
 
-        try {
-            transferService.transfer(current, contact, form.getAmount());
-            model.addAttribute("msg", "Success");
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        if(error != null){
+            builder.queryParam("error", error);
+        }
+        if(msg != null){
+            builder.queryParam("msg", msg);
         }
 
-        return "transfer";
+        String redirectUri = builder.toUriString();
+        return new RedirectView(redirectUri);
     }
 }

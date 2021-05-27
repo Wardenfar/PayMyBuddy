@@ -1,11 +1,14 @@
 package com.wardenfar.paymybuddy.service;
 
+import com.wardenfar.paymybuddy.entity.Transaction;
 import com.wardenfar.paymybuddy.entity.User;
+import com.wardenfar.paymybuddy.repository.TransactionRepository;
 import com.wardenfar.paymybuddy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Service
@@ -14,7 +17,10 @@ public class TransferService {
     @Autowired
     UserRepository userRepository;
 
-    @Transactional
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    @Transactional(rollbackOn = Exception.class)
     public void transfer(User from, User to, double amount) throws Exception {
         if (amount > from.getMoney()) {
             throw new Exception("You don't have enough money");
@@ -23,6 +29,13 @@ public class TransferService {
         from.subMoney(amount);
         to.addMoney(amount);
 
+        Transaction transaction = new Transaction();
+        transaction.setFrom(from);
+        transaction.setTo(to);
+        transaction.setAmount(amount);
+        transaction.setDate(LocalDateTime.now());
+
         userRepository.saveAll(Arrays.asList(from, to));
+        transactionRepository.save(transaction);
     }
 }
