@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -21,12 +22,12 @@ public class TransferService {
     TransactionRepository transactionRepository;
 
     @Transactional(rollbackOn = Exception.class)
-    public void transfer(User from, User to, double amount) throws Exception {
-        if (amount <= 0) {
+    public void transfer(User from, User to, BigDecimal amount) throws Exception {
+        if (amount.compareTo(new BigDecimal(0)) <= 0) {
             throw new Exception("The amount must be positive and non zero");
         }
 
-        if (amount > from.getMoney()) {
+        if (amount.compareTo(from.getMoney()) > 0) {
             throw new Exception("You don't have enough money");
         }
 

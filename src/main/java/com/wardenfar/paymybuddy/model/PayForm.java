@@ -1,8 +1,9 @@
 package com.wardenfar.paymybuddy.model;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 
 @Data
 public class PayForm {
@@ -11,5 +12,5 @@ public class PayForm {
     long connectionId;
 
     @Positive
-    double amount;
+    BigDecimal amount;
 }

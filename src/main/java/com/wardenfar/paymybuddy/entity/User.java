@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class User {
     private long version;
 
     @Column(columnDefinition = "Decimal(10,2) default 0.0")
-    private float money = 0.0f;
+    private BigDecimal money = BigDecimal.valueOf(0.0f);
 
     @ManyToMany(targetEntity = User.class)
     private Set<User> connections;
@@ -56,12 +57,12 @@ public class User {
         return firstName + " " + lastName;
     }
 
-    public void addMoney(double amount) {
-        this.money += amount;
+    public void addMoney(BigDecimal amount) {
+        this.money = this.money.add(amount);
     }
 
-    public void subMoney(double amount) {
-        this.money -= amount;
+    public void subMoney(BigDecimal amount) {
+        this.money = this.money.subtract(amount);
     }
 
     public String formatMoney(){
