@@ -21,4 +21,12 @@ public class ConnectionService {
 
         userRepository.saveAll(Arrays.asList(a, b));
     }
+
+    @Transactional(rollbackOn = Exception.class)
+    public void disconnectTwoUsers(User a, User b) {
+        a.getConnections().remove(b);
+        b.getConnections().remove(a);
+
+        userRepository.saveAll(Arrays.asList(a, b));
+    }
 }
