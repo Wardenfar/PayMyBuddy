@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(
                         "/login",
+                        "/register",
                         "/security/login_check",
                         "/security/logout",
                         "/favicon.ico"

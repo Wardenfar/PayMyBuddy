@@ -35,17 +35,20 @@ public class ConnectionController {
         String error = null;
         String msg = null;
 
-        User other = userRepository.findByEmail(form.getEmail());
-        if (other == null) {
+        Optional<User> otherOpt = userRepository.findByEmail(form.getEmail());
+        if (otherOpt.isEmpty()) {
             error = "No user found with this email";
-        } else if (currentUser.getConnections().contains(other)) {
-            error = "The connection already exists";
         } else {
-            try {
-                connectionService.connectTwoUsers(currentUser, other);
-                msg = "Success";
-            } catch (Exception e) {
-                error = e.getMessage();
+            User other = otherOpt.get();
+            if (currentUser.getConnections().contains(other)) {
+                error = "The connection already exists";
+            } else {
+                try {
+                    connectionService.connectTwoUsers(currentUser, other);
+                    msg = "Success";
+                } catch (Exception e) {
+                    error = e.getMessage();
+                }
             }
         }
 
@@ -62,11 +65,11 @@ public class ConnectionController {
         Optional<User> otherOpt = userRepository.findById(otherId);
         if (otherOpt.isEmpty()) {
             error = "No user found with this id";
-        }else{
+        } else {
             User other = otherOpt.get();
-            if(!currentUser.getConnections().contains(other)){
+            if (!currentUser.getConnections().contains(other)) {
                 error = "The connection does not exists";
-            }else{
+            } else {
                 try {
                     connectionService.disconnectTwoUsers(currentUser, other);
                     msg = "Success";
