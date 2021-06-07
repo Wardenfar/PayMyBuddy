@@ -4,6 +4,7 @@ import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.model.AddConnectionForm;
 import com.wardenfar.paymybuddy.model.PayForm;
 import com.wardenfar.paymybuddy.repository.TransactionRepository;
+import com.wardenfar.paymybuddy.service.TransferService;
 import com.wardenfar.paymybuddy.service.UserService;
 import com.wardenfar.paymybuddy.util.RedirectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class AppController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TransferService transferService;
 
     @Autowired
     TransactionRepository transactionRepository;
@@ -45,6 +49,7 @@ public class AppController {
     public String transfer(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
+        model.addAttribute("maxAmount", transferService.maxTransferAmountForUser(user));
         model.addAttribute("page", "transfer");
         model.addAttribute("msg", msg.orElse(null));
         model.addAttribute("error", error.orElse(null));

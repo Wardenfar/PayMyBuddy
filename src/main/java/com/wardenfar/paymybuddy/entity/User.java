@@ -1,6 +1,7 @@
 package com.wardenfar.paymybuddy.entity;
 
 import com.wardenfar.paymybuddy.config.Constants;
+import com.wardenfar.paymybuddy.util.MoneyUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -53,19 +53,19 @@ public class User {
         return Objects.hash(email);
     }
 
-    public String fullname(){
+    public String fullname() {
         return firstName + " " + lastName;
     }
 
     public void addMoney(BigDecimal amount) {
-        this.money = this.money.add(amount);
+        this.money = MoneyUtil.round(this.money.add(amount));
     }
 
     public void subMoney(BigDecimal amount) {
-        this.money = this.money.subtract(amount);
+        this.money = MoneyUtil.round(this.money.subtract(amount));
     }
 
-    public String formatMoney(){
+    public String formatMoney() {
         return money + " " + Constants.MONEY_SYMBOL;
     }
 }
