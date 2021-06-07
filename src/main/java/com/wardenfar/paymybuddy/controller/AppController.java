@@ -5,11 +5,13 @@ import com.wardenfar.paymybuddy.model.AddConnectionForm;
 import com.wardenfar.paymybuddy.model.PayForm;
 import com.wardenfar.paymybuddy.repository.TransactionRepository;
 import com.wardenfar.paymybuddy.service.UserService;
+import com.wardenfar.paymybuddy.util.RedirectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
@@ -21,6 +23,15 @@ public class AppController {
 
     @Autowired
     TransactionRepository transactionRepository;
+
+    @GetMapping("/")
+    public RedirectView index() {
+        if(userService.isConnected()){
+            return RedirectUtil.redirectTo("/home", null, null);
+        }else{
+            return RedirectUtil.redirectTo("/login", null, null);
+        }
+    }
 
     @GetMapping("/home")
     public String home(Model model) {

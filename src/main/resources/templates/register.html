@@ -8,25 +8,24 @@
 
 <div layout:fragment="content" class="pt-4">
 
-    <div class="alert alert-danger" role="alert"
-         th:if="${error}" th:text="${error}">
-    </div>
-
-    <div class="alert alert-success" role="alert"
-         th:if="${msg}" th:text="${msg}">
-    </div>
-
     <form action="#" th:action="@{/register}" th:object="${registerForm}" method="POST">
-        <div class="card mb-4">
+        <div class="card m-4 p-4">
             <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-success">Register</button>
+                <button type="button" class="btn btn-success">Create an account</button>
             </div>
             <div class="card-body">
+                <div class="alert alert-danger" role="alert"
+                     th:if="${error}" th:text="${error}">
+                </div>
+                <div class="alert alert-success" role="alert"
+                     th:if="${msg}" th:text="${msg}">
+                </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input class="form-control mx-2" type="email" id="email"
                            placeholder="test@example.com"
                            th:field="*{email}">
+                    <a class="form-text" th:href="@{/login}">I already have an account</a>
                 </div>
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First Name</label>

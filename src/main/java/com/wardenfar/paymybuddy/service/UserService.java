@@ -27,6 +27,11 @@ public class UserService {
         return userRepository.findByEmail(email).orElseThrow();
     }
 
+    public boolean isConnected() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.isAuthenticated();
+    }
+
     @Transactional(rollbackOn = Exception.class)
     public void createUser(String email, String firstName, String lastName, String password) {
         User user = new User();
