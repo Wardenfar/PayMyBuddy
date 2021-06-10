@@ -91,9 +91,10 @@
 <div layout:fragment="script">
     <script>
         $(function () {
+            var floor = bigDecimal.RoundingModes.FLOOR;
             $('#amount').keyup(function () {
                 let amount = bigDecimal.round($(this).val(), 2);
-                let withTax = bigDecimal.round(bigDecimal.add(amount, bigDecimal.multiply(amount, '0.05')), 2);
+                let withTax = bigDecimal.round(bigDecimal.add(amount, bigDecimal.multiply(amount, '0.05')), 2, floor);
                 $('#amount-tax').val(withTax)
             })
         })

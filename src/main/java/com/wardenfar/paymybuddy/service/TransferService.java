@@ -56,12 +56,22 @@ public class TransferService {
     }
 
     public BigDecimal amountWithTax(BigDecimal amount) {
+        // the amount can never have a scale bigger than 2 decimals
+        amount = MoneyUtil.round(amount);
+
         BigDecimal n = amount.add(amount.multiply(Constants.TRANSFER_TAX));
         return MoneyUtil.round(n);
     }
 
     public BigDecimal maxTransferAmountForUser(User user) {
-        BigDecimal n = user.getMoney().divide(new BigDecimal(1).add(Constants.TRANSFER_TAX), 2, RoundingMode.HALF_DOWN);
+        return maxTransferAmountForMoney(user.getMoney());
+    }
+
+    public BigDecimal maxTransferAmountForMoney(BigDecimal money) {
+        // the money can never have a scale bigger than 2 decimals
+        money = MoneyUtil.round(money);
+
+        BigDecimal n = money.divide(new BigDecimal(1).add(Constants.TRANSFER_TAX), 2, RoundingMode.HALF_DOWN);
         return MoneyUtil.round(n);
     }
 }
