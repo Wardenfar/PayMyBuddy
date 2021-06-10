@@ -39,16 +39,13 @@ public class AppController {
 
     @GetMapping("/home")
     public String home(Model model) {
-        User user = userService.getCurrentUser();
-        model.addAttribute("user", user);
         model.addAttribute("page", "home");
         return "home";
     }
 
     @GetMapping("/transfer")
     public String transfer(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
-        User user = userService.getCurrentUser();
-        model.addAttribute("user", user);
+        User user = userService.getCurrentUser().orElseThrow();
         model.addAttribute("maxAmount", transferService.maxTransferAmountForUser(user));
         model.addAttribute("page", "transfer");
         model.addAttribute("msg", msg.orElse(null));
@@ -60,8 +57,6 @@ public class AppController {
 
     @GetMapping("/connections")
     public String connections(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
-        User user = userService.getCurrentUser();
-        model.addAttribute("user", user);
         model.addAttribute("page", "connections");
         model.addAttribute("msg", msg.orElse(null));
         model.addAttribute("error", error.orElse(null));

@@ -30,7 +30,7 @@ public class ConnectionController {
 
     @PostMapping("/connections/add")
     public RedirectView addConnection(@ModelAttribute("addConnectionForm") @Valid AddConnectionForm form) {
-        User currentUser = userService.getCurrentUser();
+        User currentUser = userService.getCurrentUser().orElseThrow();
 
         String error = null;
         String msg = null;
@@ -57,7 +57,7 @@ public class ConnectionController {
 
     @PostMapping("/connections/remove/{otherId}")
     public RedirectView removeConnection(@PathVariable("otherId") Long otherId) {
-        User currentUser = userService.getCurrentUser();
+        User currentUser = userService.getCurrentUser().orElseThrow();
 
         String error = null;
         String msg = null;

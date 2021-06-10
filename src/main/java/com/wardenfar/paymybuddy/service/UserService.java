@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @NoArgsConstructor
@@ -21,10 +22,10 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public User getCurrentUser() {
+    public Optional<User> getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        return userRepository.findByEmail(email).orElseThrow();
+        return userRepository.findByEmail(email);
     }
 
     public boolean isConnected() {

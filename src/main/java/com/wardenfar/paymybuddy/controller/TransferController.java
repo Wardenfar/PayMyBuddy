@@ -34,7 +34,7 @@ public class TransferController {
     public RedirectView pay(@ModelAttribute("payForm") @Valid PayForm form, BindingResult bindingResult) {
         System.out.println(form.toString());
         System.out.println(bindingResult.getAllErrors());
-        User current = userService.getCurrentUser();
+        User current = userService.getCurrentUser().orElseThrow();
 
         Optional<User> connectionOpt = userRepository.findById(form.getConnectionId());
 

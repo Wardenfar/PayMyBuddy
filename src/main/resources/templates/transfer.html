@@ -18,11 +18,18 @@
 
     <form action="#" th:action="@{/pay}" th:object="${payForm}" method="POST">
         <div class="card mb-4">
-            <div class="card-header d-flex justify-content-between align-content-center">
-                <h3>Send Money</h3>
-                <a th:href="@{/connections}" class="btn btn-primary">
-                    Add Connection
-                </a>
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-content-center">
+                    <h3>Send Money</h3>
+                    <a th:href="@{/connections}" class="btn btn-primary">
+                        Add Connection
+                    </a>
+                </div>
+                <div>
+                    <span th:text="'Transaction Min: 0.20 / Max :' + ${maxAmount}"></span>
+                    <br>
+                    <span>Tax : 5%</span>
+                </div>
             </div>
             <div class="card-body d-flex">
                 <div class="input-group mx-2">
@@ -34,7 +41,7 @@
                                 th:text="${connection.fullname()}">
                     </select>
                 </div>
-                <input class="form-control mx-2" type="number" id="amount"
+                <input class="form-control" type="number" id="amount"
                        step="0.01"
                        placeholder="Select an Amount"
                        th:field="*{amount}"
@@ -84,7 +91,7 @@
 <div layout:fragment="script">
     <script>
         $(function () {
-            $('#amount').keyup(function (){
+            $('#amount').keyup(function () {
                 let amount = bigDecimal.round($(this).val(), 2);
                 let withTax = bigDecimal.round(bigDecimal.add(amount, bigDecimal.multiply(amount, '0.05')), 2);
                 $('#amount-tax').val(withTax)

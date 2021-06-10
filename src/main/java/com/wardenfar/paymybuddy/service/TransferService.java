@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -60,7 +61,7 @@ public class TransferService {
     }
 
     public BigDecimal maxTransferAmountForUser(User user) {
-        BigDecimal n = user.getMoney().multiply(new BigDecimal(1).subtract(Constants.TRANSFER_TAX));
+        BigDecimal n = user.getMoney().divide(new BigDecimal(1).add(Constants.TRANSFER_TAX), 2, RoundingMode.HALF_DOWN);
         return MoneyUtil.round(n);
     }
 }

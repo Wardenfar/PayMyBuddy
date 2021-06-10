@@ -38,8 +38,11 @@
                     <a th:attr="class=${page == 'connections' ? 'nav-link active' : 'nav-link'}" th:href="@{/connections}">Connections</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" th:text="${user.formatMoney()}"></a>
+                </li>
+                <li class="nav-item">
                     <form action="/security/logout" method='POST'>
-                        <input name="submit" type="submit" class="nav-link" value="Log Off">
+                        <input name="submit" type="submit" class="nav-link btn btn-primary text-white" value="Log Off">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     </form>
                 </li>
