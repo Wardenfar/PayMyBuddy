@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base.html}">
+<head>
+
+</head>
+<body>
+
+<div layout:fragment="content" class="pt-4">
+
+    <div class="alert alert-danger" role="alert"
+         th:if="${error}" th:text="${error}">
+    </div>
+
+    <div class="alert alert-success" role="alert"
+         th:if="${msg}" th:text="${msg}">
+    </div>
+
+    <form action="#" th:action="@{/transfer/fromBank}" th:object="${bankTransferForm}" method="POST">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-content-center">
+                    <h3>Transfer FROM by Bank Account</h3>
+                </div>
+            </div>
+            <div class="card-body d-flex">
+                <input class="form-control" type="number" id="amount"
+                       step="0.01"
+                       placeholder="Select an Amount"
+                       th:field="*{amount}">
+                <button class="btn btn-success mx-2" type="submit"
+                        style="min-width: 100px">
+                    Transfer
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <form action="#" th:action="@{/transfer/toBank}" th:object="${bankTransferForm}" method="POST">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-content-center">
+                    <h3>Transfer TO by Bank Account</h3>
+                </div>
+            </div>
+            <div class="card-body d-flex">
+                <input class="form-control" type="number" id="amount"
+                       step="0.01"
+                       placeholder="Select an Amount"
+                       th:field="*{amount}"
+                       th:max="${user.money}">
+                <button class="btn btn-success mx-2" type="submit"
+                        style="min-width: 100px">
+                    Transfer
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3>My Bank Transfers</h3>
+        </div>
+        <div class="card-body d-flex">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="t : ${bankTransfers}">
+                    <td th:text="${t.formatAmount()}"></td>
+                    <td th:text="${t.date}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

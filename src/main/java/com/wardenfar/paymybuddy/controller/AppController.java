@@ -2,6 +2,7 @@ package com.wardenfar.paymybuddy.controller;
 
 import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.model.AddConnectionForm;
+import com.wardenfar.paymybuddy.model.BankTransferForm;
 import com.wardenfar.paymybuddy.model.PayForm;
 import com.wardenfar.paymybuddy.repository.TransactionRepository;
 import com.wardenfar.paymybuddy.service.TransferService;
@@ -53,6 +54,18 @@ public class AppController {
         model.addAttribute("payForm", new PayForm());
         model.addAttribute("transactions", transactionRepository.findByUserAny(user));
         return "transfer";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
+        User user = userService.getCurrentUser().orElseThrow();
+        model.addAttribute("maxAmount", transferService.maxTransferAmountForUser(user));
+        model.addAttribute("page", "profile");
+        model.addAttribute("msg", msg.orElse(null));
+        model.addAttribute("error", error.orElse(null));
+        model.addAttribute("bankTransferForm", new BankTransferForm());
+        model.addAttribute("bankTransfers", user.getBankTransfers());
+        return "profile";
     }
 
     @GetMapping("/connections")

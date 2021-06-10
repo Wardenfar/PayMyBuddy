@@ -40,6 +40,9 @@ public class User {
     @ManyToMany(targetEntity = User.class)
     private Set<User> connections;
 
+    @OneToMany(targetEntity = BankTransfer.class, mappedBy = "user")
+    private Set<BankTransfer> bankTransfers;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
