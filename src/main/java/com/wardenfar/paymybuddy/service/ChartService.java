@@ -37,7 +37,7 @@ public class ChartService {
 
         var transFromUser = transactionRepository.findByUserFrom(user);
         var transToUser = transactionRepository.findByUserTo(user);
-        var bankTransfers =  bankTransferRepository.findByUser(user);
+        var bankTransfers = bankTransferRepository.findByUser(user);
 
         List<Pair<LocalDateTime, BigDecimal>> inputs = new ArrayList<>();
         for (Transaction t : transFromUser) {
@@ -51,12 +51,12 @@ public class ChartService {
         }
 
         BigDecimal currentAmount = new BigDecimal(0);
-        while(inputs.size() > 0){
+        while (inputs.size() > 0) {
             Pair<LocalDateTime, BigDecimal> next = inputs.get(0);
             long nextTimestamp = inputs.get(0).getFirst().toEpochSecond(ZoneOffset.UTC);
-            for(var pair : inputs){
+            for (var pair : inputs) {
                 long ts = pair.getFirst().toEpochSecond(ZoneOffset.UTC);
-                if(ts < nextTimestamp){
+                if (ts < nextTimestamp) {
                     nextTimestamp = ts;
                     next = pair;
                 }

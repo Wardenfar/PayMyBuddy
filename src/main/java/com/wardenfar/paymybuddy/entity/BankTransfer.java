@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Bank Transfer ( from or to the bank )
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +27,10 @@ public class BankTransfer {
     @ManyToOne(targetEntity = User.class)
     private User user;
 
+    /**
+     * If >0 : from the bank
+     * else : to the bank
+     */
     @Column(columnDefinition = "Decimal(10,2) default 0.0")
     private BigDecimal amount;
 

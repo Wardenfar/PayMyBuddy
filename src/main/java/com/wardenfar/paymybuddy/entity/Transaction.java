@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Transaction between two user (from and to)
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

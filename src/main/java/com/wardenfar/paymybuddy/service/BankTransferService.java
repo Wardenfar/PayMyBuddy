@@ -15,14 +15,8 @@ import java.time.LocalDateTime;
 @Service
 public class BankTransferService {
 
-    public enum TransferDirection {
-        FROM_BANK,
-        TO_BANK
-    }
-
     @Autowired
     BankTransferRepository bankTransferRepository;
-
     @Autowired
     UserRepository userRepository;
 
@@ -56,5 +50,10 @@ public class BankTransferService {
         bankTransfer.setAmount(amount);
         bankTransfer.setDate(LocalDateTime.now());
         return bankTransfer;
+    }
+
+    public enum TransferDirection {
+        FROM_BANK,
+        TO_BANK
     }
 }

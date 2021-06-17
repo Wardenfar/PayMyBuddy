@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * User Entity
+ */
 @Entity
 @Table(name = "user")
 @Getter
@@ -49,6 +52,9 @@ public class User {
     @OneToMany(targetEntity = BankTransfer.class, mappedBy = "user")
     private Set<BankTransfer> bankTransfers;
 
+    /**
+     * Unique field : email
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,23 +63,38 @@ public class User {
         return Objects.equals(email, user.email);
     }
 
+    /**
+     * Unique field : email
+     */
     @Override
     public int hashCode() {
         return Objects.hash(email);
     }
 
+    /**
+     * Return the fullname of the user
+     */
     public String fullname() {
         return firstName + " " + lastName;
     }
 
+    /**
+     * Give money
+     */
     public void addMoney(BigDecimal amount) {
         this.money = MoneyUtil.round(this.money.add(amount));
     }
 
+    /**
+     * Take money
+     */
     public void subMoney(BigDecimal amount) {
         this.money = MoneyUtil.round(this.money.subtract(amount));
     }
 
+    /**
+     * Format current money with the symbol
+     */
     public String formatMoney() {
         return money + " " + Constants.MONEY_SYMBOL;
     }

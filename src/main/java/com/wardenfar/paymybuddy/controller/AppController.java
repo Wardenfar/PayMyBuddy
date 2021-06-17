@@ -19,6 +19,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
+/**
+ * Mvc Controller for view routes
+ */
 @Controller
 public class AppController {
 
@@ -34,15 +37,21 @@ public class AppController {
     @Autowired
     ChartService chartService;
 
+    /**
+     * Redirect to /home or /login if the user is not connected
+     */
     @GetMapping("/")
     public RedirectView index() {
-        if(userService.isConnected()){
+        if (userService.isConnected()) {
             return RedirectUtil.redirectTo("/home", null, null);
-        }else{
+        } else {
             return RedirectUtil.redirectTo("/login", null, null);
         }
     }
 
+    /**
+     * Home page of connected users
+     */
     @GetMapping("/home")
     public String home(Model model) throws JsonProcessingException {
         model.addAttribute("page", "home");
@@ -51,6 +60,9 @@ public class AppController {
         return "home";
     }
 
+    /**
+     * Transfer page
+     */
     @GetMapping("/transfer")
     public String transfer(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
         User user = userService.getCurrentUser().orElseThrow();
@@ -63,6 +75,9 @@ public class AppController {
         return "transfer";
     }
 
+    /**
+     * Profile page (Bank transfers)
+     */
     @GetMapping("/profile")
     public String profile(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
         User user = userService.getCurrentUser().orElseThrow();
@@ -75,6 +90,9 @@ public class AppController {
         return "profile";
     }
 
+    /**
+     * Connections page (add or remove)
+     */
     @GetMapping("/connections")
     public String connections(Model model, @RequestParam Optional<String> msg, @RequestParam Optional<String> error) {
         model.addAttribute("page", "connections");

@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+/**
+ * Custom User Details (String Security)
+ */
 @Getter
 public class CustomUserDetails implements UserDetails {
 

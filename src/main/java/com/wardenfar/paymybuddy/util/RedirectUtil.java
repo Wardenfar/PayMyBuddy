@@ -10,10 +10,10 @@ public class RedirectUtil {
         UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest()
                 .replacePath(path);
 
-        if(error != null){
+        if (error != null) {
             builder.queryParam("error", error);
         }
-        if(msg != null){
+        if (msg != null) {
             builder.queryParam("msg", msg);
         }
 
