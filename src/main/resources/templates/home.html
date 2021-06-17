@@ -7,8 +7,42 @@
 <body>
 
 <div layout:fragment="content">
-    <span style="font-size: 75px" th:text="${user.formatMoney()}">
-    </span>
+    <div class="d-flex justify-content-center">
+        <span style="font-size: 75px" th:text="${user.formatMoney()}">
+        </span>
+    </div>
+
+    <canvas id="moneyChart" width="1600" height="400" th:data-values="${chartValues}"></canvas>
+</div>
+
+<div layout:fragment="script">
+    <script>
+        $(function () {
+            let json = $('#moneyChart').data("values")
+
+            var ctx = document.getElementById('moneyChart').getContext('2d');
+            const data = {
+                datasets: [{
+                    label: 'Your Money ($)',
+                    data: json,
+                    fill: false,
+                    borderColor: 'rgb(14, 202, 33)',
+                    tension: 0.1
+                }]
+            };
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'time'
+                        }]
+                    }
+                }
+            });
+        })
+    </script>
 </div>
 </body>
 </html>

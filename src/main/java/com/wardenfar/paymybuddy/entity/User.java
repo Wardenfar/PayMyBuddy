@@ -40,6 +40,12 @@ public class User {
     @ManyToMany(targetEntity = User.class)
     private Set<User> connections;
 
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "from")
+    private Set<BankTransfer> fromTransactions;
+
+    @OneToMany(targetEntity = Transaction.class, mappedBy = "to")
+    private Set<BankTransfer> toTransactions;
+
     @OneToMany(targetEntity = BankTransfer.class, mappedBy = "user")
     private Set<BankTransfer> bankTransfers;
 

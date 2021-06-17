@@ -1,10 +1,12 @@
 package com.wardenfar.paymybuddy.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.model.AddConnectionForm;
 import com.wardenfar.paymybuddy.model.BankTransferForm;
 import com.wardenfar.paymybuddy.model.PayForm;
 import com.wardenfar.paymybuddy.repository.TransactionRepository;
+import com.wardenfar.paymybuddy.service.ChartService;
 import com.wardenfar.paymybuddy.service.TransferService;
 import com.wardenfar.paymybuddy.service.UserService;
 import com.wardenfar.paymybuddy.util.RedirectUtil;
@@ -29,6 +31,9 @@ public class AppController {
     @Autowired
     TransactionRepository transactionRepository;
 
+    @Autowired
+    ChartService chartService;
+
     @GetMapping("/")
     public RedirectView index() {
         if(userService.isConnected()){
@@ -39,8 +44,10 @@ public class AppController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home(Model model) throws JsonProcessingException {
         model.addAttribute("page", "home");
+        User user = userService.getCurrentUser().orElseThrow();
+        model.addAttribute("chartValues", chartService.moneyChartToJson(user));
         return "home";
     }
 
