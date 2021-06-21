@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/test/e2e/cypress/screenshots/
+/src/test/e2e/cypress/videos/
+/node_modules/
+/src/test/e2e/node_modules/
+/src/test/e2e/yarn.lock

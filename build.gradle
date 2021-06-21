@@ -29,11 +29,22 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testcontainers:testcontainers:1.15.3'
+	testImplementation 'io.github.wimdeblauwe:testcontainers-cypress:1.3.0'
+	testImplementation 'com.h2database:h2:1.4.200'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+processTestResources {
+	from("src/test/e2e") {
+		exclude 'node_modules'
+		into("e2e")
+	}
 }
 
 compileJava.options.encoding = 'UTF-8'
