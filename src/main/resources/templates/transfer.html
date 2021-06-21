@@ -80,7 +80,7 @@
                     </td>
                     <td>...</td>
                     <td th:text="${t.formatAmount()}"></td>
-                    <td th:text="${t.date}"></td>
+                    <td th:text="${#temporals.format(t.date, 'dd MMM yyyy HH:mm')}"></td>
                 </tr>
                 </tbody>
             </table>
