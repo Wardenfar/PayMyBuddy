@@ -2,6 +2,7 @@ package com.wardenfar.paymybuddy.service;
 
 import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.Arrays;
 /**
  * Service to connection or disconnect two users
  */
+@Log4j2
 @Service
 public class ConnectionService {
 
@@ -26,6 +28,7 @@ public class ConnectionService {
         b.getConnections().add(a);
 
         userRepository.saveAll(Arrays.asList(a, b));
+        log.info("Connect {} <-> {}", a.fullname(), b.fullname());
     }
 
     /**
@@ -37,5 +40,6 @@ public class ConnectionService {
         b.getConnections().remove(a);
 
         userRepository.saveAll(Arrays.asList(a, b));
+        log.info("Disconnect {} <-> {}", a.fullname(), b.fullname());
     }
 }

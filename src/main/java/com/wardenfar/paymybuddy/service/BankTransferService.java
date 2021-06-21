@@ -5,6 +5,7 @@ import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.repository.BankTransferRepository;
 import com.wardenfar.paymybuddy.repository.UserRepository;
 import com.wardenfar.paymybuddy.util.MoneyUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 /**
  * Service for bank transfers from/to bank
  */
+@Log4j2
 @Service
 public class BankTransferService {
 
@@ -58,6 +60,8 @@ public class BankTransferService {
         // Save entities
         bankTransferRepository.save(bankTransfer);
         userRepository.save(user);
+
+        log.info("Bank Transfer {} € : {}", bankTransfer.getAmount(), user.fullname());
     }
 
     /**

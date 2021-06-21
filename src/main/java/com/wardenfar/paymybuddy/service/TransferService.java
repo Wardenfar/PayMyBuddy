@@ -6,6 +6,7 @@ import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.repository.TransactionRepository;
 import com.wardenfar.paymybuddy.repository.UserRepository;
 import com.wardenfar.paymybuddy.util.MoneyUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.Arrays;
 /**
  * Service to make transfers between two Users
  */
+@Log4j2
 @Service
 public class TransferService {
 
@@ -56,6 +58,7 @@ public class TransferService {
         // Update users money
         from.subMoney(amountWithTax);
         to.addMoney(amount);
+        log.info("Transaction {} € : {} -> {}", amount, from.fullname(), to.fullname());
 
         // Create the transaction
         Transaction transaction = new Transaction();

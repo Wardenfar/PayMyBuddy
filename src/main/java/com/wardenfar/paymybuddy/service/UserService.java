@@ -4,6 +4,7 @@ import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.repository.UserRepository;
 import com.wardenfar.paymybuddy.util.RegexUtil;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import java.util.Optional;
 /**
  * Service for users
  */
+@Log4j2
 @Service
 @NoArgsConstructor
 public class UserService {
@@ -61,5 +63,7 @@ public class UserService {
         user.setPassword(encodedPassword);
 
         userRepository.save(user);
+
+        log.info("Create user {} {}", user.fullname(), user.getEmail());
     }
 }
