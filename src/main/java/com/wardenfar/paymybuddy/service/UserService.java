@@ -2,6 +2,7 @@ package com.wardenfar.paymybuddy.service;
 
 import com.wardenfar.paymybuddy.entity.User;
 import com.wardenfar.paymybuddy.repository.UserRepository;
+import com.wardenfar.paymybuddy.util.RegexUtil;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -46,7 +47,11 @@ public class UserService {
      * Create an user
      */
     @Transactional(rollbackOn = Exception.class)
-    public void createUser(String email, String firstName, String lastName, String password) {
+    public void createUser(String email, String firstName, String lastName, String password) throws Exception {
+        if(!RegexUtil.validEmail(email)){
+            throw new Exception("Invalid email");
+        }
+
         User user = new User();
         user.setEmail(email);
         user.setFirstName(firstName);
