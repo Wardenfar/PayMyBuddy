@@ -69,7 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register",
                         "/security/login_check",
                         "/security/logout",
-                        "/favicon.ico"
+                        "/favicon.ico",
+                        "/reset"
                 ).permitAll()
                 // other pages require auth
                 .anyRequest().authenticated()
