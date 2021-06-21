@@ -55,7 +55,7 @@ public class ChartService {
             inputs.add(Pair.of(t.getDate(), transferService.amountWithTax(t.getAmount()).negate()));
         }
         for (Transaction t : transToUser) {
-            inputs.add(Pair.of(t.getDate(), transferService.amountWithTax(t.getAmount())));
+            inputs.add(Pair.of(t.getDate(), t.getAmount()));
         }
         for (BankTransfer bt : bankTransfers) {
             inputs.add(Pair.of(bt.getDate(), bt.getAmount()));
