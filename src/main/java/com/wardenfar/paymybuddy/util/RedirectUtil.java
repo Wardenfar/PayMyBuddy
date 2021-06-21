@@ -6,6 +6,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class RedirectUtil {
 
+    /**
+     * Util method to redirect with message and error
+     */
     public static RedirectView redirectTo(String path, String msg, String error) {
         UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest()
                 .replacePath(path);

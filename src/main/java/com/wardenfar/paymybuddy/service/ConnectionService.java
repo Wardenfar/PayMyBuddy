@@ -8,12 +8,18 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 
+/**
+ * Service to connection or disconnect two users
+ */
 @Service
 public class ConnectionService {
 
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Connect two users and rollback if exception
+     */
     @Transactional(rollbackOn = Exception.class)
     public void connectTwoUsers(User a, User b) {
         a.getConnections().add(b);
@@ -22,6 +28,9 @@ public class ConnectionService {
         userRepository.saveAll(Arrays.asList(a, b));
     }
 
+    /**
+     * Disconnect two users and rollback if exception
+     */
     @Transactional(rollbackOn = Exception.class)
     public void disconnectTwoUsers(User a, User b) {
         a.getConnections().remove(b);

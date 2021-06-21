@@ -24,11 +24,17 @@ public class CustomUserDetails implements UserDetails {
         return null;
     }
 
+    /**
+     * Hashed password
+     */
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    /**
+     * The "username" is the email
+     */
     @Override
     public String getUsername() {
         return user.getEmail();

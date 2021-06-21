@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+/**
+ * Service for users
+ */
 @Service
 @NoArgsConstructor
 public class UserService {
@@ -22,17 +25,26 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    /**
+     * Get current connected user
+     */
     public Optional<User> getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email);
     }
 
+    /**
+     * Is a user is connected
+     */
     public boolean isConnected() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.isAuthenticated();
     }
 
+    /**
+     * Create an user
+     */
     @Transactional(rollbackOn = Exception.class)
     public void createUser(String email, String firstName, String lastName, String password) {
         User user = new User();
