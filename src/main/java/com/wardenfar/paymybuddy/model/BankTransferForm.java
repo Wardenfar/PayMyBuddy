@@ -12,6 +12,6 @@ import java.math.BigDecimal;
 public class BankTransferForm {
 
     // Amount (from/to the bank)
-    @Positive
+    @Positive(message = "Amount must be positive")
     BigDecimal amount;
 }

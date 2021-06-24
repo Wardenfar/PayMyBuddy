@@ -2,8 +2,8 @@ package com.wardenfar.paymybuddy.repository;
 
 import com.wardenfar.paymybuddy.entity.BankTransfer;
 import com.wardenfar.paymybuddy.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Bank Transfer Repository
  */
-public interface BankTransferRepository extends CrudRepository<BankTransfer, Long> {
+public interface BankTransferRepository extends JpaRepository<BankTransfer, Long> {
 
     /**
      * Find transfer related to an user

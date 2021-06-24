@@ -1,5 +1,7 @@
 package com.wardenfar.paymybuddy.controller;
 
+import com.wardenfar.paymybuddy.repository.BankTransferRepository;
+import com.wardenfar.paymybuddy.repository.TransactionRepository;
 import com.wardenfar.paymybuddy.repository.UserRepository;
 import com.wardenfar.paymybuddy.util.TestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,12 @@ public class TestController {
     UserRepository userRepository;
 
     @Autowired
+    BankTransferRepository bankTransferRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
+    @Autowired
     TestUtil testUtil;
 
     @GetMapping("/reset")
@@ -26,8 +34,15 @@ public class TestController {
         return "Ok";
     }
 
-    @Transactional
+    @Transactional()
     public void reset() {
+        bankTransferRepository.deleteAllInBatch();
+        bankTransferRepository.flush();
+
+        transactionRepository.deleteAllInBatch();
+        transactionRepository.flush();
+
         userRepository.deleteAllInBatch();
+        userRepository.flush();
     }
 }

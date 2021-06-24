@@ -21,6 +21,7 @@ describe("Register Tests", function () {
 
         cy.successRegister("user@gmail.com", 'Théo', 'EMERIAU', "testtest", "testtest")
         cy.login('user@gmail.com', 'testtest')
+        cy.contains('0.00 €')
         cy.contains('Log Off').click()
         cy.url().should('include', '/login')
     })
