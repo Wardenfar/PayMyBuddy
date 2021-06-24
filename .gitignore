@@ -38,5 +38,6 @@ out/
 /src/test/e2e/cypress/screenshots/
 /src/test/e2e/cypress/videos/
 /node_modules/
-/src/test/e2e/node_modules/
-/src/test/e2e/yarn.lock
+/yarn.lock
+/cypress/videos
+/cypress/screenshots
