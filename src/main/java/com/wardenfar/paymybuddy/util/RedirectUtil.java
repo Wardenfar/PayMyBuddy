@@ -12,25 +12,38 @@ public class RedirectUtil {
      * Util method to redirect with message and error
      */
     public static RedirectView redirectTo(String path, String msg, String error) {
-        UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest()
-                .replacePath(path);
+        UriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequest();
+        builder.replacePath(path);
+        return processURI(builder, msg, error);
+    }
 
+    /**
+     * Add query parameters
+     */
+    public static RedirectView processURI(UriComponentsBuilder builder, String msg, String error) {
+        // Remove all query params
+        builder.query("");
+
+        // Add only not null params
         if (error != null) {
-            builder.queryParam("error", error);
+            builder.replaceQueryParam("error", error);
         }
         if (msg != null) {
-            builder.queryParam("msg", msg);
+            builder.replaceQueryParam("msg", msg);
         }
 
+        // Build the uri
         String redirectUri = builder.toUriString();
 
-        if(error != null){
-            log.error("Redirect {} : {}", path, error);
-        }else{
-            log.info("Redirect {} : {}", path, msg);
+        // Logs
+        if (error != null) {
+            log.error("Redirect {} : {}", error, redirectUri);
+        } else {
+            log.info("Redirect {} : {}", msg, redirectUri);
         }
         log.debug("Redirect to {}", redirectUri);
 
+        // Return the view
         return new RedirectView(redirectUri);
     }
 }
