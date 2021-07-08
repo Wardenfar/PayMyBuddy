@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+user "1" *-- "many" transaction : from
+user "1" *-- "many" transaction : to
+user "1" *-- "many" bank_transfer
+
+user "many" *-- "many" user_connections
+user_connections "many" *-- "many" user
+
+class user {
+   __ private __
+   id : bigint
+   version: bigint
+   __ public __
+   email : string
+   first_name : string
+   last_name : string
+   money : BigDecimal
+   password: string (bcrypt hash)
+}
+
+class transaction {
+    __ private __
+    private id : bigint
+    __ public __
+    public amount : BigDecimal
+    public data : LocalDateTime
+    public from_id : bigint
+    public to_id : bigint
+}
+
+class bank_transfer {
+    __ private __
+    private id : bigint
+    __ public __
+    public amount : BigDecimal
+    public data : LocalDateTime
+    public user_id : bigint
+}
+
+class user_connections {
+    __ public __
+    public user_id : bigint
+    public connection_id : bigint
+}
+
+@enduml
