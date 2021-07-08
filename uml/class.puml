@@ -1,0 +1,175 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'Util
+package Util {
+    class Constants
+    class MoneyUtil
+    enum TransferDirection {
+         FROM_BANK
+         TO_BANK
+    }
+}
+
+'Entities
+package Entities {
+    class User {
+        id
+        email
+        password
+        firstName
+        lastName
+        version
+        money
+        connections
+        __ methods __
+        fullname()
+        addMoney()
+        subMoney()
+        formatMoney()
+    }
+    class Transaction {
+        id
+        from
+        to
+        amount
+        date
+        __ methods __
+        formatAmount()
+    }
+    class BankTransfer {
+        id
+        user
+        amount
+        date
+        __ methods __
+        formatAmount()
+    }
+}
+
+'Repositories
+package Repositories {
+    class UserRepository {
+        findByEmail(email)
+        existsByEmail(email)
+    }
+    class BankTransferRepository {
+        findByUser(user)
+    }
+    class TransactionRepository {
+        findByUserFrom(user)
+        findByUserTo(user)
+        findByUserAny(user)
+    }
+}
+
+'Service
+package Services {
+    class BankTransferService {
+        updateUserMoney(user, amount, direction)
+        createBankTransfer(user, amount)
+    }
+    class ChartService {
+        moneyChartToJson(user)
+    }
+    class ConnectionService {
+        connectTwoUsers(user, user)
+        disconnectTwoUsers(user, user)
+    }
+    class TransferService {
+        transfer(from, to, amount)
+        amountWithTax(amount)
+        maxTransferAmountForUser(user)
+        maxTransferAmountForMoney(money)
+    }
+    class UserService {
+        getCurrentUser()
+        isConnected()
+        createUser(email, firstName, lastName, password)
+    }
+}
+
+'Security
+package Security {
+  class CustomUserDetails
+  class UserDetailsServiceImpl
+}
+
+'Controller
+package Controller {
+  class AppController
+  class BankTransferController
+  class ConnectionController
+  class SecurityController
+  class TestController
+  class TransferController
+}
+
+'Model
+package Model {
+  class AddConnectionForm {
+    email
+  }
+  class BankTransferForm {
+    amount
+  }
+  class PayForm {
+      connectionId
+      amount
+  }
+  class RegisterForm {
+    email
+    password
+    confirm
+    firstName
+    lastName
+  }
+}
+
+'Config
+package Config {
+  class ThymeleafConfig
+  class SecurityConfig
+}
+
+Controller --> Model
+
+AppController --> UserService
+AppController --> TransferService
+AppController --> TransferService
+AppController --> ChartService
+
+BankTransferController --> UserService
+BankTransferController --> BankTransferService
+
+ConnectionController --> ConnectionService
+ConnectionController --> UserService
+
+SecurityController --> UserService
+
+TransferController --> UserService
+TransferController --> TransferService
+
+Services --> MoneyUtil
+
+UserRepository --> User
+BankTransferRepository --> BankTransfer
+TransactionRepository --> Transaction
+
+BankTransferService --> BankTransferRepository
+BankTransferService --> UserRepository
+
+ChartService --> BankTransferRepository
+ChartService --> TransactionRepository
+
+ConnectionService --> UserRepository
+
+TransferService --> UserRepository
+TransferService --> TransactionRepository
+
+UserService --> UserRepository
+
+UserDetailsServiceImpl --> UserRepository
+UserDetailsServiceImpl --> CustomUserDetails
+
+@enduml
