@@ -97,12 +97,29 @@ package Security {
 
 'Controller
 package Controller {
-  class AppController
-  class BankTransferController
-  class ConnectionController
-  class SecurityController
-  class TestController
-  class TransferController
+  class AppController {
+     GET /
+     GET /home
+     GET /transfer
+     GET /profile
+     GET /connections
+  }
+  class BankTransferController {
+    POST /transfer/fromBank
+    POST /transfer/toBank
+  }
+  class ConnectionController {
+    POST /connections/add
+    POST /connections/remove/{otherId}
+  }
+  class SecurityController {
+    GET /login
+    GET /register
+    POST /register
+  }
+  class TransferController {
+    POST /pay
+  }
 }
 
 'Model
