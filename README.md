@@ -31,3 +31,9 @@
 - `gradle bootRunIt`
 - `yarn`
 - `yarn cypress run`
+
+## Diagrams
+
+![Class](images/uml_class.png)
+
+![Database](images/uml_database.png)
